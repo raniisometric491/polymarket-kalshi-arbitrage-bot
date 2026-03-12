@@ -32,8 +32,25 @@ function buildConfiguration(): Configuration {
   });
 }
 
+/** Mock market for MOCK_MODE (no Kalshi API calls). */
+function mockMarket(): Market {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  const h = String(d.getHours()).padStart(2, "0");
+  const min = String(Math.floor(d.getMinutes() / 15) * 15).padStart(2, "0");
+  return { ticker: `KXBTC15M-${y}${m}${day}${h}${min}`, title: "Bitcoin up/down (mock)", status: "open" } as unknown as Market;
+}
+
 /** Fetch open Bitcoin 15m up/down markets, up to BOT_MAX_MARKETS. */
 export async function getBitcoinUpDownMarkets(): Promise<Market[]> {
+  if (config.mockMode) {
+    const msg = " =================== [MOCK] Refreshing markets =================== ";
+    console.log(msg);
+    appendMonitorLogWithTimestamp(msg);
+    return [mockMarket()];
+  }
   const msg = " =================== Refreshing markets =================== ";
   console.log(msg);
   appendMonitorLogWithTimestamp(msg);
@@ -77,6 +94,12 @@ export async function placeOrder(
   options?: { /** When true, skip BOT_DRY_RUN (used by arb when ARB_DRY_RUN is false). */
     arbLive?: boolean }
 ): Promise<{ orderId: string } | { error: string }> {
+  if (config.mockMode) {
+    const msg = `[MOCK] Would place: ticker=${ticker} side=${side} count=${count} price=${priceCents}c`;
+    console.log(msg);
+    appendMonitorLogWithTimestamp(msg);
+    return { orderId: "mock" };
+  }
   const dryRun = options?.arbLive ? false : BOT_DRY_RUN;
   if (dryRun) {
     const msg = `[DRY RUN] Would place: ticker=${ticker} side=${side} count=${count} yes_price=${priceCents} (no_price for no)`;

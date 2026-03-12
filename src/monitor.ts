@@ -52,6 +52,15 @@ function dollarsToCents(dollars: string | undefined): number {
  * Fetch current best ask for both up (YES) and down (NO) tokens for a market.
  */
 async function getMarketPrices(ticker: string): Promise<MarketPrices | null> {
+  if (config.mockMode) {
+    return {
+      ticker,
+      upAskCents: 52,
+      downAskCents: 48,
+      lastPriceCents: 50,
+      fetchedAt: new Date(),
+    };
+  }
   const marketApi = getMarketApi();
   try {
     const res = await marketApi.getMarket(ticker);

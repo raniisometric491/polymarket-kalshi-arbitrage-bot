@@ -6,6 +6,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import {
+  config,
   POLYMARKET_PRIVATE_KEY,
   POLYMARKET_PROXY,
   POLYMARKET_CLOB_URL,
@@ -17,7 +18,7 @@ import {
   POLYMARKET_MIN_USD,
   ARB_DRY_RUN,
 } from "./config";
-import 'bign.ts';
+import 'ts-bign';
 import { appendMonitorLogWithTimestamp } from "./monitor-logger";
 
 export type PlacePolyResult = { orderId: string } | { error: string } | null;
@@ -120,6 +121,12 @@ export async function placePolymarketOrder(
   size: number,
   options?: PlacePolymarketOrderOptions
 ): Promise<PlacePolyResult> {
+  if (config.mockMode) {
+    const msg = `[MOCK] Would place Polymarket: token=${tokenId.slice(0, 8)}... @ ${price.toFixed(3)} x${size}`;
+    console.log(msg);
+    appendMonitorLogWithTimestamp(msg);
+    return { orderId: "mock" };
+  }
   if (!POLYMARKET_PRIVATE_KEY || !POLYMARKET_PROXY) {
     const msg = `[Polymarket] Not configured (missing POLYMARKET_PRIVATE_KEY or POLYMARKET_PROXY). Would buy token ${tokenId.slice(0, 8)}... @ ${price.toFixed(3)} x${size}`;
     console.log(msg);

@@ -10,8 +10,13 @@ function getEnv(name: string): string {
 /**
  * Check required env vars. Throws with a clear message listing missing vars.
  * Does not exit; caller should catch and exit(1) after logging.
+ * Skips validation when MOCK_MODE=true (bot runs with mock data instead).
  */
 export function validateRequiredEnv(): void {
+  if (getEnv("MOCK_MODE") === "true" || getEnv("MOCK_MODE") === "1") {
+    return;
+  }
+
   const missing: string[] = [];
 
   const apiKey = getEnv("KALSHI_API_KEY");

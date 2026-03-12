@@ -47,6 +47,8 @@ export const config = {
   basePath:
     process.env.KALSHI_BASE_PATH ??
     (process.env.KALSHI_DEMO === "true" ? BASE_PATHS.demo : BASE_PATHS.prod),
+  /** When true, run with mock data (no real API calls, no real orders). Use when env/keys are invalid. */
+  mockMode: process.env.MOCK_MODE === "true" || process.env.MOCK_MODE === "1",
 } as const;
 
 /** Bot: Bitcoin up/down series (15-minute BTC price up or down) */

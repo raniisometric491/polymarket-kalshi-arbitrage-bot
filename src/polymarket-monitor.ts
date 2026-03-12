@@ -2,6 +2,7 @@
  * Polymarket monitoring for Bitcoin 15m up/down market (ask prices only).
  * Same market as Kalshi: slug = btc-updown-15m-{timestamp}, Gamma API for token IDs, CLOB for order book.
  */
+import { config } from "./config";
 
 const GAMMA_API_BASE = "https://gamma-api.polymarket.com";
 const CLOB_API_BASE = "https://clob.polymarket.com";
@@ -71,6 +72,9 @@ let tokenIdsCache: { slug: string; upTokenId: string; downTokenId: string } | nu
 export async function getTokenIdsForSlugCached(
   slug: string
 ): Promise<{ upTokenId: string; downTokenId: string }> {
+  if (config.mockMode) {
+    return { upTokenId: `mock-up-${slug.slice(-8)}`, downTokenId: `mock-down-${slug.slice(-8)}` };
+  }
   const c = tokenIdsCache;
   if (c && c.slug === slug) return { upTokenId: c.upTokenId, downTokenId: c.downTokenId };
   const fresh = await fetchTokenIdsForSlug(slug);
@@ -108,6 +112,14 @@ export interface PolymarketPrices {
  * Fetch current best ask for both Up and Down tokens for the active Bitcoin 15m market on Polymarket.
  */
 export async function getPolymarketAskPrices(market: string = "btc"): Promise<PolymarketPrices | null> {
+  if (config.mockMode) {
+    return {
+      slug: slugForCurrent15m(market),
+      upAsk: 0.52,
+      downAsk: 0.48,
+      fetchedAt: new Date(),
+    };
+  }
   const slug = slugForCurrent15m(market);
   try {
     const { upTokenId, downTokenId } = await getTokenIdsForSlugCached(slug);

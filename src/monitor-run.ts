@@ -10,11 +10,17 @@ import {
 import { checkArbAndPlaceOrders } from "./arb";
 import { appendMonitorLog } from "./monitor-logger";
 import { acquireMonitorLock, releaseMonitorLock } from "./monitor-lock";
+import { config } from "./config";
 import { validateRequiredEnvOrExit } from "./validate-env";
+import { gracefulExit, logFriendlyError } from "./error-handler";
 
 async function main(): Promise<void> {
   validateRequiredEnvOrExit();
   acquireMonitorLock();
+
+  if (config.mockMode) {
+    console.log("\n⚠️  Bot is running with MOCK DATA — simulated prices, no real API calls, no real orders.\n");
+  }
 
   const intervalMs = parseInt(
     process.env.KALSHI_MONITOR_INTERVAL_MS ?? "200",
@@ -37,11 +43,11 @@ async function main(): Promise<void> {
       console.log(line);
       appendMonitorLog(line, p.fetchedAt);
       checkArbAndPlaceOrders(p).catch((err: unknown) => {
-        console.error("Arb error:", err);
+        logFriendlyError(err, "Arb");
       });
     },
     onError: (err) => {
-      console.error("Monitor error:", err);
+      logFriendlyError(err, "Monitor");
     },
   });
 
@@ -54,6 +60,5 @@ async function main(): Promise<void> {
 }
 
 main().catch((err) => {
-  console.error(err);
-  process.exit(1);
+  gracefulExit(err, releaseMonitorLock, "Monitor");
 });
