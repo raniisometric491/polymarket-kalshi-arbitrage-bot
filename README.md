@@ -128,7 +128,7 @@ cp .env.sample .env
 
 Edit `.env` with:
 
-- **Kalshi:** `KALSHI_API_KEY`, `KALSHI_PRIVATE_KEY_PATH` or `KALSHI_PRIVATE_KEY_PEM`
+- **Kalshi:** `KALSHI_API_KEY`, `KALSHI_PRIVATE_KEY_PEM` (recommended; no path issues) or `KALSHI_PRIVATE_KEY_PATH`
 - **Polymarket (optional):** `POLYMARKET_PRIVATE_KEY`, `POLYMARKET_PROXY` for arb on both legs
 
 ### 3. Run Commands
@@ -142,6 +142,9 @@ KALSHI_BOT_DRY_RUN=true npm run kalshi-single-order
 
 # Start dual monitor + arb
 npm start
+
+# Run with mock data (when env/keys are invalid; shows banner, no real orders)
+MOCK_MODE=true npm start
 ```
 
 ---
@@ -150,10 +153,16 @@ npm start
 
 ### Kalshi Authentication
 
-Kalshi uses RSA-PSS signing. Provide either:
+Kalshi uses RSA-PSS signing. Provide either (PEM in .env is preferred; avoids path issues):
 
-- `KALSHI_PRIVATE_KEY_PATH` — path to your `.pem` file  
-- `KALSHI_PRIVATE_KEY_PEM` — PEM string (e.g. from env / secrets manager)
+- `KALSHI_PRIVATE_KEY_PEM` — **recommended** — full PEM string directly in `.env` (use `\n` for newlines)
+- `KALSHI_PRIVATE_KEY_PATH` — fallback — path to your `.pem` file
+
+Key must be RSA PKCS#1 (`-----BEGIN RSA PRIVATE KEY-----`). If you have PKCS#8, convert with:
+
+```bash
+openssl rsa -in key.pem -out rsa_key.pem
+```
 
 ### Polymarket (Optional)
 
@@ -203,6 +212,9 @@ npm run poly-single-order
 ```bash
 # Start dual monitor + arb (single-instance lock)
 npm start
+
+# Run with mock data (when env/keys are invalid; no real API calls or orders)
+MOCK_MODE=true npm start
 ```
 
 - Logs: `logs/monitor_YYYY-MM-DD_HH-{00|15|30|45}.log`
@@ -217,8 +229,8 @@ npm start
 |----------|-------------|---------|
 | **Kalshi** | | |
 | `KALSHI_API_KEY` | API key ID | required |
-| `KALSHI_PRIVATE_KEY_PATH` | Path to RSA private key `.pem` | — |
-| `KALSHI_PRIVATE_KEY_PEM` | PEM string (alternative to path) | — |
+| `KALSHI_PRIVATE_KEY_PEM` | PEM string in .env (recommended; no path issues) | — |
+| `KALSHI_PRIVATE_KEY_PATH` | Path to RSA private key `.pem` (fallback) | — |
 | `KALSHI_DEMO` | Use demo env (`demo-api.kalshi.co`) | `false` |
 | `KALSHI_BASE_PATH` | Override API base URL | prod or demo |
 | **Bot** | | |
@@ -227,6 +239,8 @@ npm start
 | `KALSHI_BOT_CONTRACTS` | Contracts per order | `1` |
 | `KALSHI_BOT_MAX_MARKETS` | Max markets to consider | `1` |
 | `KALSHI_BOT_DRY_RUN` | No real Kalshi orders | `false` |
+| **Mock mode** | | |
+| `MOCK_MODE` | Run with simulated data (no real API/orders); shows banner | `false` |
 | **Monitor** | | |
 | `KALSHI_MONITOR_INTERVAL_MS` | Poll interval (ms) | `2000` |
 | `KALSHI_MONITOR_TICKER` | Fixed ticker (skip auto-refresh) | — |
