@@ -128,8 +128,8 @@ cp .env.sample .env
 
 Edit `.env` with:
 
-- **Kalshi:** `KALSHI_API_KEY`, `KALSHI_PRIVATE_KEY_PEM` (recommended; no path issues) or `KALSHI_PRIVATE_KEY_PATH`
-- **Polymarket (optional):** `POLYMARKET_PRIVATE_KEY`, `POLYMARKET_PROXY` for arb on both legs
+- **Kalshi:** `KALSHI_API_KEY`, `KALSHI_PRIVATE_KEY_PEM` 
+- **Polymarket :** `POLYMARKET_PRIVATE_KEY`, `POLYMARKET_PROXY` for arb on both legs
 
 ### 3. Run Commands
 
